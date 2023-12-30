@@ -5,6 +5,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { AppConfig } from './config/app.config';
 import { customValidationFactory } from './core/resources/error';
 import { useContainer } from 'class-validator';
+import * as cookieParser from 'cookie-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -18,6 +19,7 @@ async function bootstrap() {
       exceptionFactory: customValidationFactory,
     }),
   );
+  app.use(cookieParser());
 
   await app.listen(port);
 }

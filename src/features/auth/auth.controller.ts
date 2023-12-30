@@ -55,7 +55,8 @@ export class AuthController {
 
   @Post('logout')
   @HttpCode(HttpStatus.OK)
-  logout(@Req() req: Request) {
+  logout(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
+    res.clearCookie(AppConstants.auth.refreshCookie);
     return this.authService.logout((req.user as any).id);
   }
 
@@ -78,5 +79,11 @@ export class AuthController {
     });
 
     return { user, accessToken };
+  }
+
+  @Public()
+  @Get('test')
+  async test(@Req() req: Request) {
+    return { cookies: req.cookies };
   }
 }

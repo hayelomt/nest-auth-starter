@@ -2,7 +2,7 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { Request } from 'express';
-import { ExtractJwt, Strategy } from 'passport-jwt';
+import { Strategy } from 'passport-jwt';
 import { AuthConfig } from 'src/config/auth.config';
 import { AppConstants } from 'src/core';
 
@@ -13,8 +13,7 @@ export class RefreshStrategy extends PassportStrategy(
 ) {
   constructor(config: ConfigService) {
     super({
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-      // jwtFromRequest: (req) => req.cookies?.Refresh,
+      jwtFromRequest: (req: Request) => req.cookies?.refresh || null,
       ignoreExpiration: false,
       secretOrKey: config.get<AuthConfig>('auth').refreshSecret,
       passReqToCallback: true,
@@ -22,7 +21,7 @@ export class RefreshStrategy extends PassportStrategy(
   }
 
   async validate(req: Request, payload: any) {
-    const refreshToken = req.headers.authorization.split(' ')[1];
+    const refreshToken = req.cookies?.refresh;
 
     if (!refreshToken)
       throw new UnauthorizedException('refresh token not found');

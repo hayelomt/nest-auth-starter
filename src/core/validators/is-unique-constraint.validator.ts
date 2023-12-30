@@ -17,7 +17,7 @@ export class IsUniqueConstraint implements ValidatorConstraintInterface {
 
     const user = await (this.prisma as any)[table].findUnique({
       where: {
-        [column]: value,
+        [column]: value || '',
       },
     });
 
