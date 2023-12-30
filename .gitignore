@@ -36,3 +36,5 @@ lerna-debug.log*
 
 tmp.js
 *.zip
+*.env
+!.env.example
