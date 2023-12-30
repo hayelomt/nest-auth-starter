@@ -4,6 +4,7 @@ import { FeaturesModule } from './features/features.module';
 import { ConfigModule } from '@nestjs/config';
 import { configValidationSchema } from './config/config.validation';
 import { configuration } from './config/app.config';
+import { IsUniqueConstraint } from './core/validators/is-unique-constraint.validator';
 
 @Module({
   imports: [
@@ -16,6 +17,6 @@ import { configuration } from './config/app.config';
     FeaturesModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [IsUniqueConstraint],
 })
 export class AppModule {}
