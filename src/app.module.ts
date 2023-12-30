@@ -5,13 +5,15 @@ import { ConfigModule } from '@nestjs/config';
 import { configValidationSchema } from './config/config.validation';
 import { configuration } from './config/app.config';
 import { IsUniqueConstraint } from './core/validators/is-unique-constraint.validator';
+import { authConfig } from './config/auth.config';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
       validationSchema: configValidationSchema,
-      load: [configuration],
+      load: [configuration, authConfig],
+      cache: true,
     }),
     CoreModule,
     FeaturesModule,
